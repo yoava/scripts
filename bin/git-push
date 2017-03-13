@@ -1,0 +1,4 @@
+#!/bin/sh
+for branch in "$@"; do
+    git checkout $branch && git pull && git push
+done

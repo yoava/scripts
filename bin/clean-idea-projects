@@ -1,0 +1,5 @@
+#!/bin/sh
+find "$1" -name \.idea -type d -print0 | xargs -0 rm -r
+find "$1" -name \*.iml -type f -delete
+find "$1" -name \*.iws -type f -delete
+find "$1" -name \*.ipr -type f -delete

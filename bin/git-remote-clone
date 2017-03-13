@@ -1,0 +1,11 @@
+#!/bin/sh
+echo "Copying $1 ==> $2"
+mkdir temp
+cd temp
+git clone --mirror "$1" .
+git remote set-url origin "$2"
+git push origin --mirror
+
+echo Cleanup...
+cd ..
+rm -rf temp

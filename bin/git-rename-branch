@@ -1,0 +1,6 @@
+#!/bin/sh
+git checkout $1                     # switch branch
+git pull                            # pull
+git branch -m $1 $2                 # rename local branch
+git push origin :$1                 # Delete the old branch
+git push --set-upstream origin $2   # Push the new branch, set local branch to track the new remote

@@ -1,0 +1,10 @@
+#!/bin/sh
+for file in VID_201*.*
+do
+    folder=${file:4:4}/${file:8:2}/${file:10:2}
+    if ! test -e "$folder"; then
+        mkdir -pv "$folder"
+    fi
+
+    mv $file $folder/
+done

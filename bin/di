@@ -1,0 +1,10 @@
+#!/bin/bash
+
+dependency=$1
+if [ -z $2 ]; then configuration=runtime; else configuration=$2; fi
+if [ -z $3 ]; then module=backend-container; else module=$3; fi
+
+cmd="gradle -Pdev -q $module:dependencyInsight --configuration $configuration --dependency $dependency"
+echo $cmd
+echo
+$cmd

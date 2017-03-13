@@ -1,0 +1,10 @@
+#!/bin/sh
+prev=""
+for branch in "$@"; do
+    echo Checking out $branch...
+    git checkout $branch && git pull
+    [[ $prev ]] && echo "Merging branch '$prev' into $branch..." && git merge $prev --commit -m "Merge branch '$prev' into $branch"
+    echo Pushing $branch changes...
+    git push
+    prev="$branch"
+done

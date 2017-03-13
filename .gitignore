@@ -1,0 +1,102 @@
+## Eclipse ############
+.metadata/
+.settings/
+.project
+.classpath
+
+## IntelliJ ###########
+out/
+.idea/
+classes/
+*.iml
+*.ipr
+*.iws
+*.ids
+*.patch
+atlassian-ide-plugin.xml
+
+## Logs ###############
+*.log
+
+## Gradle #############
+.gradle/
+build/
+target/
+local.properties
+
+## Andrdoid ############
+.externalNativeBuild
+
+## Web ################
+node_modules
+bower_components
+
+## Mac ################
+.DS_Store
+
+## Windows ############
+Thumbs.db
+ehthumbs.db
+
+## Xcode ##############
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+*.xccheckout
+*.moved-aside
+DerivedData
+*.hmap
+*.ipa
+*.xcuserstate
+Pods/
+
+## Ruby ######################
+##############################
+
+*.gem
+*.rbc
+/.config
+/coverage/
+/InstalledFiles
+/pkg/
+/spec/reports/
+/spec/examples.txt
+/test/tmp/
+/test/version_tmp/
+/tmp/
+
+# Used by dotenv library to load environment variables.
+.env
+
+## Specific to RubyMotion:
+.dat*
+.repl_history
+*.bridgesupport
+build-iPhoneOS/
+build-iPhoneSimulator/
+
+## Documentation cache and generated files:
+/.yardoc/
+/_yardoc/
+/doc/
+/rdoc/
+
+## Environment normalization:
+/.bundle/
+/vendor/bundle
+/lib/bundler/man/
+
+# for a library or gem, you might want to ignore these files since the code is
+# intended to run in multiple environments; otherwise, check them in:
+# Gemfile.lock
+# .ruby-version
+# .ruby-gemset
+
+# unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
+.rvmrc
