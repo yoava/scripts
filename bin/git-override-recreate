@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+if [[ ! "$1" || ! "$2" ]]; then
+  echo "Error! Bad arguments"
+  echo "Usage: $(basename "$0") <source_branch> <target_branch> -p"
+  echo " flags: -p  pull target_branch before copy"
+  echo
+  exit 1
+fi
+
+source_branch="$1"
+target_branch="$2"
+
+if [[ "$3" == "-p" ]]; then
+  echo "Pull $target_branch..."
+  git checkout $target_branch
+  git pull
+  echo
+fi
+
+if [[ "$(git rev-parse $source_branch)" == "$(git rev-parse $target_branch)" ]]; then
+  echo "$(basename "$0") aborted: $source_branch and $target_branch are already the same"
+  exit 0
+fi
+
+echo "Recreate $target_branch from $target_branch (override all changes in \"$target_branch\" with \"$source_branch\")..."
+echo "$source_branch = $(git rev-parse $source_branch)"
+echo "$target_branch = $(git rev-parse $target_branch)"
+echo
+
+git checkout $source_branch
+git branch -D $target_branch
+git checkout -b $target_branch
+git push origin $target_branch --force-with-lease
+
+echo
+echo "$source_branch = $(git rev-parse $source_branch)"
+echo "$target_branch = $(git rev-parse $target_branch)"
+echo

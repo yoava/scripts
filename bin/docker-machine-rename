@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+if [[ -z $1 || -z $2 ]]; then
+  echo
+  echo Usage: `basename "$0"` [old-machine-name] [new-machine-name]
+  echo
+  exit 1
+fi
+
+OLD_MACHINE_NAME=$1
+NEW_MACHINE_NAME=$2
+STORE_PATH=`docker-machine inspect $OLD_MACHINE_NAME | grep -m 1 StorePath | cut -d ':' -f 2 | cut -c 3- | rev | cut -c 3- | rev`;
+mv "$STORE_PATH/machines/$OLD_MACHINE_NAME" "$STORE_PATH/machines/$NEW_MACHINE_NAME";
+cp "$STORE_PATH/machines/$NEW_MACHINE_NAME/config.json" "$STORE_PATH/machines/$NEW_MACHINE_NAME/config.json.bak"
+sed -e "s/$OLD_MACHINE_NAME/$NEW_MACHINE_NAME/g" "$STORE_PATH/machines/$NEW_MACHINE_NAME/config.json.bak" > "$STORE_PATH/machines/$NEW_MACHINE_NAME/config.json";
+vboxmanage modifyvm "$OLD_MACHINE_NAME" --name "$NEW_MACHINE_NAME"

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+START_TIME=$(gdate +%s.%N)
+"$@"
+ELAPSED_TIME=$(bc <<< "$(gdate +%s.%N) - $START_TIME")
+echo "done in $ELAPSED_TIME seconds"

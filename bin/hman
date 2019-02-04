@@ -1,2 +1,2 @@
-#!/bin/bash
-man $* | man2html > /tmp/man.html && open /tmp/man.html
+#!/usr/bin/env bash
+man "$@" | man2html > /tmp/man.html && open /tmp/man.html

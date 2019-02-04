@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+cd ~/Library/Application\ Support/JetBrains/Toolbox/apps || exit 1
+for product in *; do
+    if [ -d "$product" ]; then
+        mapfile -t arr < <(ls -1 "$product/ch-0" 2>/dev/null | sort -r)
+
+        [[ "${arr[@]}" ]] && echo && echo "Keeping $product ${arr[0]}"
+        for old_version in "${arr[@]:1:100}"; do
+          echo "rm $product/ch-0/$old_version..."
+          rm -rf "$product/ch-0/$old_version"
+        done
+    fi
+done
+echo

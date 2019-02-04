@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+docker exec -i -t $(docker ps | grep $1 | cut -f 1 -d ' ' | head -1) ${2:-bash}

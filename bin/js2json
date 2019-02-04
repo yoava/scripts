@@ -1,0 +1,37 @@
+#!/usr/bin/env node
+// @author Yoav Aharoni yoavah@gmail.com
+const {join} = require('path');
+const {readFileSync} = require('fs');
+
+// args
+const targetFile = process.argv.slice(2).filter(arg => !arg.startsWith('-')).pop();
+const pretty = process.argv.includes('-p') || process.argv.includes('--pretty');
+const expectPipedData = !process.stdin.isTTY;
+
+function js2json(jsScript) {
+    const jsValue = eval(`(${jsScript})`);
+
+    const jsonOutput = pretty ? JSON.stringify(jsValue, null, '  ') : JSON.stringify(jsValue);
+    return jsonOutput;
+}
+
+if (targetFile) {
+    const fullPath = join(process.cwd(), targetFile);
+    const jsScript = readFileSync(fullPath).toString();
+    console.info(js2json(jsScript));
+}
+
+if (expectPipedData) {
+
+}
+let data = '';
+process.stdin.resume();
+process.stdin.setEncoding('utf8');
+
+process.stdin.on('data', function(chunk) {
+    data += chunk;
+});
+
+process.stdin.on('end', function () {
+    console.info(js2json(data));
+});

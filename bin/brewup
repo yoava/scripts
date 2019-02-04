@@ -1,2 +1,79 @@
-#!/bin/bash
-brew update && brew upgrade && brew cleanup && brew cask cleanup
+#!/usr/bin/env bash
+
+echo '== Upgrade Oh My Zsh =='
+upgrade_oh_my_zsh
+
+echo '== Brew update & upgrade... =='
+brew update
+brew upgrade
+
+echo
+echo '== Update cask... =='
+brew cask outdated | cut -f 1 | xargs brew cask reinstall
+
+echo '== Brew cleanup... =='
+brew cleanup
+
+echo
+echo '== Cleanup old JetBrains Toolbox products... =='
+clean-jetbrains-toolbox
+
+echo
+echo '== Update sdkman... =='
+export SDKMAN_DIR="$HOME/.sdkman"
+# shellcheck disable=SC1090
+[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
+sdk selfupdate
+yes | sdk upgrade
+sdk flush archives
+sdk flush temp
+sdk flush broadcast
+
+echo
+echo '== Update node using nvm... =='
+# shellcheck disable=SC1090
+. ~/.nvm/nvm.sh
+nvm install --lts
+# get installed alias (lts/x) instead of vx.x.x
+#                  list aliases | get only current    | last one | first field     | remove colors
+current_node_alias="$(nvm alias | grep "$(nvm current)" | tail -1  | cut -d ' ' -f 1 | sed $'s,\x1b\\[[0-9;]*[a-zA-Z],,g')"
+nvm alias default "$current_node_alias"
+# reload new node
+# shellcheck disable=SC1090
+. ~/.nvm/nvm.sh
+
+echo
+echo '== Update yarn global packages... =='
+yarn global upgrade --latest
+
+# usually will update only npm
+echo '== Update npm global packages... =='
+outdated_packages=$(npm-check-updates -g -j | grep \" | cut -d'"' -f 2 | xargs)
+if [[ $outdated_packages == *'All'* ]]; then
+  echo 'All global packages are up-to-date :)'
+else
+  echo "npm i -g $outdated_packages"
+  echo "$outdated_packages" | xargs npm i -g
+fi
+
+echo
+echo '== Update ruby... =='
+latest_ruby=$(rbenv install -l | grep -e '^\s*\d*\.\d*\.\d*$' | tail -1 | sed -e 's/^[ \t]*//')
+echo "Installing ruby $latest_ruby"
+rbenv install "$latest_ruby" -s
+rbenv global "$latest_ruby"
+ruby -v
+
+echo
+echo '== Update ruby gems... =='
+# if you need sudo, you're not using rbenv/rvm
+gem update --system
+gem update
+
+echo
+echo '== Update pip packages... =='
+pip install --upgrade pip
+pip list --format=json | jq .[].name | xargs pip install --upgrade
+
+echo
+echo "All Done"

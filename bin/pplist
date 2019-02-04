@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+"$(locate list-db-backups.sh | grep dev-env/scripts/list-db-backups.sh | tail -1)"

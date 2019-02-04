@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-stat -f "%OLp" $1
+ssh ec2-user@$1

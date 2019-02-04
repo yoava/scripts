@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+"$(locate load-zipped-db.sh | grep dev-env/scripts/load-zipped-db.sh | tail -1)" $*

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+for file in "$@"; do
+  # create file if not exists
+  [[ ! -r "$file" ]] && touch "$file"
+
+  # open using Atom app
+  open -a Atom "$@"
+done
+
+

@@ -1,2 +1,2 @@
-#!/bin/bash
-ps -ef | grep -v $$ | grep $1
+#!/usr/bin/env bash
+ps -ef | grep -v "$0" | grep -v grep | grep $1

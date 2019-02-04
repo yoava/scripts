@@ -1,4 +1,13 @@
-#!/bin/sh
+#!/usr/bin/env bash
+if [[ -z "$1" ]]; then
+  echo "Error: Missing path"
+  echo
+  echo "Usage: `basename "$0"` <path>"
+  echo "       e.g. `basename "$0"` ."
+  echo
+  exit 1
+fi
+
 find "$1" -name \.idea -type d -print0 | xargs -0 rm -r
 find "$1" -name \*.iml -type f -delete
 find "$1" -name \*.iws -type f -delete

@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+namespace=default
+[[ $2 ]] && namespace="$2"
+
+if [[ ! $1 || "$1" == "ls" ]]; then
+  k get pods --namespace $namespace
+  exit
+fi
+
+query="$1"
+# pod=$(k get pods --namespace tiba-dev -o jsonpath="{$.items[?(@.spec.containers[*].name==\"$query\")].metadata.name}")
+pod="$(k get pods --namespace $namespace -o jsonpath="{$.items[*].metadata.name}" | tr ' ' "\n" | grep $query | head -1)"
+
+if [[ ! $pod ]]; then
+  echo "No pod found for \"$pod\""
+  exit 1
+fi
+
+echo "ssh to $pod..."
+DEBUG='' k exec -it $pod --namespace $namespace bash

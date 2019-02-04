@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# fix for cases of linked config file
+cd "$(dirname "$(realpath ~/.aws/credentials)")" || exit 1
+
+if [[ ! -f credentials-$1 ]]; then
+    echo "Error: No valid profile provided!"
+    echo "Usage: $(basename "$0") <profile>"
+    echo
+    echo "Available profiles:"
+    ls -1 credentials-* | cut -d '-' -f 2
+    exit 1
+fi
+
+cp credentials-$1 credentials

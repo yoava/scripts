@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+"$(locate restore-db.sh | grep dev-env/scripts/restore-db.sh | tail -1)" $*

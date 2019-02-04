@@ -1,16 +1,16 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 for file in *.jpg  # Also try *.JPG
 do
     dateFolder="$(identify -verbose "$file" | grep DateTimeOri | awk '{print $2 }' | sed s%:%/%g)"
     if [[ -z $dateFolder ]]; then
         echo "No date found for $file"
-    else 
+    else
         if ! test -e "$dateFolder"; then
             echo "mkdir -pv \"$dateFolder\""
             echo "mkdir -pv \"$dateFolder\"" >> organize.sh
         fi
-    
+
         echo "mv \"$file\" \"./$dateFolder/\""
         echo "mv \"$file\" \"./$dateFolder/\"" >> organize.sh
     fi

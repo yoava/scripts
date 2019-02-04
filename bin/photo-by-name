@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 for file in VID_201*.*
 do
     folder=${file:4:4}/${file:8:2}/${file:10:2}

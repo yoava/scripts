@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+aws s3 cp $1 s3://$2/ --acl public-read

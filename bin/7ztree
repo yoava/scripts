@@ -1,0 +1,12 @@
+#!/bin/sh
+7z l "${1}" |\
+tail -n +17 |\
+sed 's/.\{53\}//' |\
+tac |\
+awk 'NR>2 {
+    n=split($6, a, "/")
+    {for (i=1; i<n; i++)
+        printf "   "
+    }
+    print a[n]
+}'
