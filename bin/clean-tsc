@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+[[ "$1" ]] && cd "$1"
+
+echo "Cleaning tsc build files from $(pwd)..."
+
+# collect lib folders
+mapfile -t libs < <(\
+  find . | \
+  grep -v /node_modules/ | \
+  grep '/lib$' \
+  )
+
+# collect **/src/*.js, **/src/*.d.ts, **/src/*.js.map
+mapfile -t files < <(\
+  find . | \
+  grep -v /node_modules/ | \
+  grep -v typings.d.ts$ | \
+  grep -v karma.conf.js$ | \
+  grep -e '.*/src/.*[.]\(js\|d[.]ts\|js[.]map\)$' \
+  )
+
+to_delete=("${libs[@]}" "${files[@]}")
+
+if (( ${#to_delete[@]} )); then
+  printf 'deleting %s\n' "${to_delete[@]}"
+  rm -rf "${to_delete[@]}"
+else
+  echo "Already clean"
+fi
