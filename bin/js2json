@@ -11,27 +11,24 @@ const expectPipedData = !process.stdin.isTTY;
 function js2json(jsScript) {
     const jsValue = eval(`(${jsScript})`);
 
-    const jsonOutput = pretty ? JSON.stringify(jsValue, null, '  ') : JSON.stringify(jsValue);
-    return jsonOutput;
+    return pretty ? JSON.stringify(jsValue, null, '  ') : JSON.stringify(jsValue);
 }
 
 if (targetFile) {
     const fullPath = join(process.cwd(), targetFile);
     const jsScript = readFileSync(fullPath).toString();
     console.info(js2json(jsScript));
+
+} else if (expectPipedData) {
+    let data = '';
+    process.stdin.resume();
+    process.stdin.setEncoding('utf8');
+
+    process.stdin.on('data', function (chunk) {
+        data += chunk;
+    });
+
+    process.stdin.on('end', function () {
+        console.info(js2json(data));
+    });
 }
-
-if (expectPipedData) {
-
-}
-let data = '';
-process.stdin.resume();
-process.stdin.setEncoding('utf8');
-
-process.stdin.on('data', function(chunk) {
-    data += chunk;
-});
-
-process.stdin.on('end', function () {
-    console.info(js2json(data));
-});
